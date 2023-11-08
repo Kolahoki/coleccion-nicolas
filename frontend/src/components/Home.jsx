@@ -5,12 +5,19 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { loginActions } from "../store/storelogin";
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
+import { useState } from "react";
+import { AppBar, Container, Typography, Link, Grid, Toolbar, Paper, Box, TextField } from "@mui/material";
 
 function Home() {
+  const [item, setItem] = useState({ nombre: '', marca: '', tipo: '', precio: '' })
   const userData = useSelector((state) => state.login);
   const isLoggedin = userData.isAutenticated;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleSaveItem = (e) => {
+    
+  }
 
   const handleLogout = (e) => {
     dispatch(loginActions.logout())
@@ -49,7 +56,58 @@ function Home() {
             </Grid>
           </Toolbar>
         </Container>
-      </AppBar >
+      </AppBar>
+      <Paper elevation={5}>
+        <Box component='form' autoComplete='off' onSubmit={handleSaveItem} >
+          <Grid container
+            justifyContent='center'
+            alignItems='center'
+            style={{ minHeight: '100vh' }}
+          >
+            <Grid item xs={3} md={3}>
+              <TextField
+                label='Nombre'
+                required
+                value={item.nombre}
+                onChange={(event) => setItem({ ...item, nombre: event.target.value })}
+              >
+              </TextField>
+            </Grid>
+            <Grid item xs={3} md={3}>
+              <TextField
+                label='Marca'
+                required
+                value={item.marca}
+                onChange={(event) => setItem({ ...item, marca: event.target.value })}
+              >
+              </TextField>
+            </Grid>
+            <Grid item xs={3} md={3}>
+              <TextField
+                label='Tipo'
+                required
+                value={item.tipo}
+                onChange={(event) => setItem({ ...item, tipo: event.target.value })}
+              >
+              </TextField>
+            </Grid>
+            <Grid item xs={3} md={3}>
+              <TextField
+                label='Precio'
+                required
+                value={item.precio}
+                onChange={(event) => setItem({ ...item, precio: event.target.value })}
+              >
+              </TextField>
+            </Grid>
+            <Grid item xs={3} md={3}>
+              <Button type='submit' variant='contained'>
+                Insertar Datos
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Paper>
     </>
   );
 }
