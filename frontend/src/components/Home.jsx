@@ -16,10 +16,23 @@ function Home() {
   const dispatch = useDispatch();
 
   const handleSaveItem = (e) => {
-    
+    e.preventDefault();
+    fetch(
+      `http://localhost:3030/addItem?nombre=${item.nombre}&marca=${item.marca}&tipo=${item.tipo}&precio=${item.precio}`
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        if (response) {
+          if (response > 0) {
+            alert('Datos guardados con éxito')
+          } else {
+            alert('No se pudieron guardar los datos')
+          }
+        }
+      });
   }
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     dispatch(loginActions.logout())
     navigate('/')
   }
