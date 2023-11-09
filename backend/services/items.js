@@ -13,7 +13,7 @@ async function insertData(req, res) {
 async function getData(req, res) {
 
     const rows = await db.query(`
-        SELECT * FROM collecion
+        SELECT * FROM coleccion
    `)
 
     const data = helper.emptyOrRows(rows)
