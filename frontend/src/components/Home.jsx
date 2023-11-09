@@ -2,14 +2,16 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, TableCell, TableRow } from "@mui/material";
 import { loginActions } from "../store/storelogin";
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import { useState } from "react";
-import { AppBar, Container, Typography, Link, Grid, Toolbar, Paper, Box, TextField } from "@mui/material";
+import { AppBar, Container, Typography, Link, Grid, Toolbar, Paper, Box, TextField, TableContainer, Table, TableHead, TableBody } from "@mui/material";
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 function Home() {
   const [item, setItem] = useState({ nombre: '', marca: '', tipo: '', precio: '' })
+  const [tableData, setTableData] = useState([])
   const userData = useSelector((state) => state.login);
   const isLoggedin = userData.isAutenticated;
   const navigate = useNavigate();
@@ -25,11 +27,46 @@ function Home() {
         if (response) {
           if (response > 0) {
             alert('Datos guardados con éxito')
+            handleGetItem();
           } else {
             alert('No se pudieron guardar los datos')
           }
         }
       });
+  }
+
+  const handleGetItem = (e) => {
+    e.preventDefault()
+    fetch(
+      `http://localhost:3030/getItems`
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        if (response) {
+          if (Object.keys(response.data).length === 0) {
+            alert('Error al seleccionar los datos')
+          } else {
+            setTableData(response.data)
+          }
+        }
+      })
+  }
+
+  const handleDeleteItem = (id) => {
+    fetch(
+      `http://localhost:3030/deleteItem?id=${id}`
+    )
+      .then(response => response.json())
+      .then(response => {
+        if (response) {
+          if (response > 0) {
+            alert('Datos borrados con éxito')
+            handleGetItem();
+          } else {
+            alert('Error al borrar datos')
+          }
+        }
+      })
   }
 
   const handleLogout = () => {
@@ -40,6 +77,7 @@ function Home() {
   useEffect(() => {
     if (!isLoggedin) {
       navigate('/');
+      handleGetItem();
     }
   }, [isLoggedin, navigate]);
 
@@ -50,20 +88,20 @@ function Home() {
         <Container>
           <Toolbar>
             <Grid container>
-              <Grid item xs={2} md={2} lg={2}>
+              <Grid item xs={1} md={1} lg={1}>
                 <CurrencyBitcoinIcon />
                 <Typography>Nicolás</Typography>
               </Grid>
-              <Grid item xs={2} md={2} lg={2}>
+              <Grid item xs={1} md={1} lg={1}>
                 <Link to='/home'>Inicio</Link>
               </Grid>
-              <Grid item xs={2} md={2} lg={2}>
+              <Grid item xs={1} md={1} lg={1}>
                 <Link to='/'>Informes</Link>
               </Grid>
-              <Grid item xs={2} md={2} lg={2}>
+              <Grid item xs={1} md={1} lg={1}>
                 <Link to='/'>Ayuda</Link>
               </Grid>
-              <Grid item xs={3} md={3} lg={3}>
+              <Grid item xs={1} md={1} lg={1}>
                 <Button variant="contained" onClick={handleLogout}>Salir</Button>
               </Grid>
             </Grid>
@@ -121,6 +159,33 @@ function Home() {
           </Grid>
         </Box>
       </Paper>
+      <TableContainer>
+        <Table aria-label='Tabla de registros de la base de datos'>
+          <TableHead>
+            <TableRow>
+              <TableCell>Nombre</TableCell>
+              <TableCell>Marca</TableCell>
+              <TableCell>Tipo</TableCell>
+              <TableCell>Precio</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tableData.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>
+                  <Button onClick={() => handleDeleteItem(row.id)}>
+                    <RemoveCircleIcon />
+                  </Button>
+                </TableCell>
+                <TableCell>{row.nombre}</TableCell>
+                <TableCell>{row.marca}</TableCell>
+                <TableCell>{row.tipo}</TableCell>
+                <TableCell>{row.precio}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 }
