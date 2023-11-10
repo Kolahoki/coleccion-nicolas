@@ -1,12 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button, TableCell, TableRow } from "@mui/material";
 import { loginActions } from "../store/storelogin";
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import { useState } from "react";
-import { AppBar, Container, Typography, Link, Grid, Toolbar, Paper, Box, TextField, TableContainer, Table, TableHead, TableBody } from "@mui/material";
+import { AppBar, Container, Typography, Grid, Toolbar, Paper, Box, TextField, TableContainer, Table, TableHead, TableBody } from "@mui/material";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 function Home() {
@@ -36,18 +36,13 @@ function Home() {
   }
 
   const handleGetItem = (e) => {
-    e.preventDefault()
     fetch(
       `http://localhost:3030/getItems`
     )
       .then((response) => response.json())
       .then((response) => {
         if (response) {
-          if (Object.keys(response.data).length === 0) {
-            alert('Error al seleccionar los datos')
-          } else {
-            setTableData(response.data)
-          }
+          setTableData(response.data)
         }
       })
   }
@@ -77,8 +72,8 @@ function Home() {
   useEffect(() => {
     if (!isLoggedin) {
       navigate('/');
-      handleGetItem();
     }
+    handleGetItem();
   }, [isLoggedin, navigate]);
 
   console.log(userData);
@@ -87,35 +82,37 @@ function Home() {
       <AppBar position='static'>
         <Container>
           <Toolbar>
-            <Grid container>
-              <Grid item xs={1} md={1} lg={1}>
+            <Grid container style={{ height: '70px' }}>
+              <Grid item xs={3} md={3} lg={3} style={{ paddingTop: 10 }}>
                 <CurrencyBitcoinIcon />
-                <Typography>Nicolás</Typography>
+                <Typography>Hola, {userData.userName}</Typography>
               </Grid>
-              <Grid item xs={1} md={1} lg={1}>
+              <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 20 }}>
                 <Link to='/home'>Inicio</Link>
               </Grid>
-              <Grid item xs={1} md={1} lg={1}>
+              <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 20 }}>
                 <Link to='/'>Informes</Link>
               </Grid>
-              <Grid item xs={1} md={1} lg={1}>
+              <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 20 }}>
                 <Link to='/'>Ayuda</Link>
               </Grid>
-              <Grid item xs={1} md={1} lg={1}>
+              <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 15 }}>
                 <Button variant="contained" onClick={handleLogout}>Salir</Button>
               </Grid>
             </Grid>
           </Toolbar>
         </Container>
       </AppBar>
-      <Paper elevation={5}>
+      <Paper>
         <Box component='form' autoComplete='off' onSubmit={handleSaveItem} >
+          <Box width={'100%'} />
+          <br></br>
           <Grid container
             justifyContent='center'
             alignItems='center'
-            style={{ minHeight: '100vh' }}
+            style={{ minHeight: '150px' }}
           >
-            <Grid item xs={3} md={3}>
+            <Grid item xs={3} md={2} lg={2} style={{ paddingLeft: 50 }}>
               <TextField
                 label='Nombre'
                 required
@@ -124,7 +121,7 @@ function Home() {
               >
               </TextField>
             </Grid>
-            <Grid item xs={3} md={3}>
+            <Grid item xs={3} md={2} lg={2} style={{ paddingLeft: 50 }}>
               <TextField
                 label='Marca'
                 required
@@ -133,7 +130,7 @@ function Home() {
               >
               </TextField>
             </Grid>
-            <Grid item xs={3} md={3}>
+            <Grid item xs={3} md={3} lg={2} style={{ paddingLeft: 50 }}>
               <TextField
                 label='Tipo'
                 required
@@ -142,7 +139,7 @@ function Home() {
               >
               </TextField>
             </Grid>
-            <Grid item xs={3} md={3}>
+            <Grid item xs={3} md={3} lg={2} style={{ paddingLeft: 50 }}>
               <TextField
                 label='Precio'
                 required
@@ -151,11 +148,13 @@ function Home() {
               >
               </TextField>
             </Grid>
-            <Grid item xs={3} md={3}>
+            <Box width={'100%'}/>
+            <Grid item xs={4} md={3} lg={2} style={{ paddingLeft: 50 }}>
               <Button type='submit' variant='contained'>
                 Insertar Datos
               </Button>
             </Grid>
+            <Box width={'100%'}/>
           </Grid>
         </Box>
       </Paper>
@@ -163,6 +162,7 @@ function Home() {
         <Table aria-label='Tabla de registros de la base de datos'>
           <TableHead>
             <TableRow>
+              <TableCell></TableCell>
               <TableCell>Nombre</TableCell>
               <TableCell>Marca</TableCell>
               <TableCell>Tipo</TableCell>
