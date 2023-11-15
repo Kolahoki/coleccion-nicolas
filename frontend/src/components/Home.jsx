@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, TableCell, TableRow } from "@mui/material";
-import { loginActions } from "../store/storelogin";
-import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import { useState } from "react";
-import { AppBar, Container, Typography, Grid, Toolbar, Paper, Box, TextField, TableContainer, Table, TableHead, TableBody } from "@mui/material";
+import { Grid, Paper, Box, TextField, TableContainer, Table, TableHead, TableBody } from "@mui/material";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import Topbar from "./Topbar";
 
 function Home() {
   const [item, setItem] = useState({ nombre: '', marca: '', tipo: '', precio: '' })
@@ -28,6 +27,10 @@ function Home() {
           if (response > 0) {
             alert('Datos guardados con éxito')
             handleGetItem();
+            item.nombre = ""
+            item.marca = ""
+            item.tipo = ""
+            item.precio = ""
           } else {
             alert('No se pudieron guardar los datos')
           }
@@ -64,11 +67,6 @@ function Home() {
       })
   }
 
-  const handleLogout = () => {
-    dispatch(loginActions.logout())
-    navigate('/')
-  }
-
   useEffect(() => {
     if (!isLoggedin) {
       navigate('/');
@@ -79,30 +77,6 @@ function Home() {
   console.log(userData);
   return (
     <>
-      <AppBar position='static'>
-        <Container>
-          <Toolbar>
-            <Grid container style={{ height: '70px' }}>
-              <Grid item xs={3} md={3} lg={3} style={{ paddingTop: 10 }}>
-                <CurrencyBitcoinIcon />
-                <Typography>Hola, {userData.userName}</Typography>
-              </Grid>
-              <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 20 }}>
-                <Link to='/home'>Inicio</Link>
-              </Grid>
-              <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 20 }}>
-                <Link to='/'>Informes</Link>
-              </Grid>
-              <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 20 }}>
-                <Link to='/'>Ayuda</Link>
-              </Grid>
-              <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 15 }}>
-                <Button variant="contained" onClick={handleLogout}>Salir</Button>
-              </Grid>
-            </Grid>
-          </Toolbar>
-        </Container>
-      </AppBar>
       <Paper>
         <Box component='form' autoComplete='off' onSubmit={handleSaveItem} >
           <Box width={'100%'} />
@@ -148,13 +122,13 @@ function Home() {
               >
               </TextField>
             </Grid>
-            <Box width={'100%'}/>
+            <Box width={'100%'} />
             <Grid item xs={4} md={3} lg={2} style={{ paddingLeft: 50 }}>
               <Button type='submit' variant='contained'>
                 Insertar Datos
               </Button>
             </Grid>
-            <Box width={'100%'}/>
+            <Box width={'100%'} />
           </Grid>
         </Box>
       </Paper>
@@ -173,9 +147,9 @@ function Home() {
             {tableData.map((row) => (
               <TableRow key={row.id}>
                 <TableCell>
-                  <Button onClick={() => handleDeleteItem(row.id)}>
+                  {userData.userRol === 'user' ? <div></div> : <Button onClick={() => handleDeleteItem(row.id)}>
                     <RemoveCircleIcon />
-                  </Button>
+                  </Button>}
                 </TableCell>
                 <TableCell>{row.nombre}</TableCell>
                 <TableCell>{row.marca}</TableCell>
