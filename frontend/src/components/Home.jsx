@@ -1,12 +1,12 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, TableCell, TableRow } from "@mui/material";
 import { useState } from "react";
 import { Grid, Paper, Box, TextField, TableContainer, Table, TableHead, TableBody } from "@mui/material";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import Topbar from "./Topbar";
+import Topbar from './Topbar';
 
 function Home() {
   const [item, setItem] = useState({ nombre: '', marca: '', tipo: '', precio: '' })
@@ -14,7 +14,6 @@ function Home() {
   const userData = useSelector((state) => state.login);
   const isLoggedin = userData.isAutenticated;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleSaveItem = (e) => {
     e.preventDefault();
@@ -77,6 +76,7 @@ function Home() {
   console.log(userData);
   return (
     <>
+      <Topbar />
       <Paper>
         <Box component='form' autoComplete='off' onSubmit={handleSaveItem} >
           <Box width={'100%'} />

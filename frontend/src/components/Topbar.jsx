@@ -1,17 +1,22 @@
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import PersonIcon from '@mui/icons-material/Person';
-import { AppBar, Container, Typography, Grid, Toolbar } from "@mui/material";
-import { useSelector } from "react-redux";
+import { AppBar, Container, Typography, Grid, Toolbar, Button } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { loginActions } from "../store/storelogin";
 
 function Topbar() {
 
     const userData = useSelector((state) => state.login);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         dispatch(loginActions.logout())
         navigate('/')
     }
 
+    return<>
     <AppBar position='static'>
         <Container>
             <Toolbar>
@@ -36,5 +41,6 @@ function Topbar() {
             </Toolbar>
         </Container>
     </AppBar>
+    </>
 }
 export default Topbar;
