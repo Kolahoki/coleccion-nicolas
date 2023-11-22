@@ -29,7 +29,7 @@ function Topbar() {
                         <Link to='/home'>Inicio</Link>
                     </Grid>
                     {userData.userRol === 'admin' && <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 20 }}>
-                        <Link to='/'>Informes</Link>
+                        <Link to='/informes'>Informes</Link>
                     </Grid>}
                     <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 20 }}>
                         <Link to='/'>Ayuda</Link>

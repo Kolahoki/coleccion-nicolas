@@ -1,12 +1,23 @@
 import Topbar from "./Topbar";
-import { Button } from "@mui/material";
-import { useState } from "react";
+import { Button, Grid } from "@mui/material";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import InformeColeccion from "./InformeColeccion";
 
 function Informes() {
 
     const [mostrarInforme, setMostrarInforme] = useState(false);
     const [datosInforme, setDatosInforme] = useState([]);
+    const userData = useSelector((state) => state.login);
+    const isLoggedin = userData.isAutenticated;
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isLoggedin) {
+            navigate('/');
+        }
+    }, [isLoggedin, navigate]);
 
     const handleGetReport = (e) => {
         fetch(
@@ -24,7 +35,12 @@ function Informes() {
 
     return <>
         <Topbar></Topbar>
-        <Button variant="contained" onClick={handleGetReport}>Informe Colección</Button>
+        <Grid container
+            justifyContent='center'
+            alignItems='center'
+            style={{ minHeight: '90px' }}>
+            <Button variant="contained" onClick={handleGetReport}>Informe Colección</Button>
+        </Grid>
         {mostrarInforme && <InformeColeccion datos={datosInforme} />}
     </>
 }
