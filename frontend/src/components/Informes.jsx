@@ -1,5 +1,5 @@
 import Topbar from "./Topbar";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Tooltip   } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -39,7 +39,9 @@ function Informes() {
             justifyContent='center'
             alignItems='center'
             style={{ minHeight: '90px' }}>
-            <Button variant="contained" onClick={handleGetReport}>Informe Colección</Button>
+            <Tooltip title="Generar informe de los datos" arrow placement="bottom">
+                <Button variant="contained" onClick={handleGetReport}>Informe Colección</Button>
+            </Tooltip>
         </Grid>
         {mostrarInforme && <InformeColeccion datos={datosInforme} />}
     </>

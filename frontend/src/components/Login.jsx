@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import { Box, Container, Grid, TextField, Paper, Avatar } from "@mui/material";
+import { Box, Container, Grid, TextField, Paper, Avatar, Tooltip } from "@mui/material";
 import { Typography } from "@mui/material";
 import { useState } from "react";
 import LockIcon from "@mui/icons-material/Lock";
@@ -90,9 +90,11 @@ function Login() {
                     setLogin({ ...login, password: event.target.value });
                   }}
                 ></TextField>
-                <Button type="submit" variant="contained" fullWidth>
-                  Acceder
-                </Button>
+                <Tooltip title="Haz clic para acceder a la página principal" arrow placement="bottom">
+                  <Button type="submit" variant="contained" fullWidth>
+                    Acceder
+                  </Button>
+                </Tooltip>
               </Box>
             </Box>
           </Paper>

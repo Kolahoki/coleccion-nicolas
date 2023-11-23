@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TableCell, TableRow } from "@mui/material";
 import { useState } from "react";
-import { Grid, Paper, Box, TextField, TableContainer, Table, TableHead, TableBody } from "@mui/material";
+import { Grid, Paper, Box, TextField, TableContainer, Table, TableHead, TableBody, Tooltip } from "@mui/material";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import Topbar from './Topbar';
 
@@ -124,9 +124,11 @@ function Home() {
             </Grid>
             <Box width={'100%'} />
             <Grid item xs={4} md={3} lg={2} style={{ paddingLeft: 50 }}>
-              <Button type='submit' variant='contained'>
-                Insertar Datos
-              </Button>
+              <Tooltip title="Insertar los datos escritos en los campos de texto" arrow placement="bottom">
+                <Button type='submit' variant='contained'>
+                  Insertar Datos
+                </Button>
+              </Tooltip>
             </Grid>
             <Box width={'100%'} />
           </Grid>
@@ -147,9 +149,12 @@ function Home() {
             {tableData.map((row) => (
               <TableRow key={row.id}>
                 <TableCell>
-                  {userData.userRol === 'user' ? <div></div> : <Button onClick={() => handleDeleteItem(row.id)}>
-                    <RemoveCircleIcon />
-                  </Button>}
+                  {userData.userRol === 'user' ? <div></div> :
+                    <Tooltip title="Borrar registro" arrow placement="right">
+                      <Button onClick={() => handleDeleteItem(row.id)}>
+                        <RemoveCircleIcon />
+                      </Button>
+                    </Tooltip>}
                 </TableCell>
                 <TableCell>{row.nombre}</TableCell>
                 <TableCell>{row.marca}</TableCell>
