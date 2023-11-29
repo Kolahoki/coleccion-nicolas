@@ -4,6 +4,7 @@ import Login from './components/Login'
 import Home from './components/Home'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Informes from './components/Informes';
+import Usuarios from './components/Usuarios';
 //importamos la función createBrowserRouter y el componente RouterProvider
 //de la librería react-router-dom
 //HACERLO
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: 'informes',
         element: <Informes />
+      },
+      {
+        path: 'usuarios',
+        element: <Usuarios />
       }
     ]
   }

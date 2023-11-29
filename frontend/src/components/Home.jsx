@@ -123,13 +123,14 @@ function Home() {
               </TextField>
             </Grid>
             <Box width={'100%'} />
-            <Grid item xs={4} md={3} lg={2} style={{ paddingLeft: 50 }}>
-              <Tooltip title="Insertar los datos escritos en los campos de texto" arrow placement="bottom">
-                <Button type='submit' variant='contained'>
-                  Insertar Datos
-                </Button>
-              </Tooltip>
-            </Grid>
+            {userData.userRol === 'guest' ? <div></div> :
+              <Grid item xs={4} md={3} lg={2} style={{ paddingLeft: 50 }}>
+                <Tooltip title="Insertar los datos escritos en los campos de texto" arrow placement="bottom">
+                  <Button type='submit' variant='contained'>
+                    Insertar Datos
+                  </Button>
+                </Tooltip>
+              </Grid>}
             <Box width={'100%'} />
           </Grid>
         </Box>
@@ -149,7 +150,7 @@ function Home() {
             {tableData.map((row) => (
               <TableRow key={row.id}>
                 <TableCell>
-                  {userData.userRol === 'user' ? <div></div> :
+                  {userData.userRol === 'admin' &&
                     <Tooltip title="Borrar registro" arrow placement="right">
                       <Button onClick={() => handleDeleteItem(row.id)}>
                         <RemoveCircleIcon />

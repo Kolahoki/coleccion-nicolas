@@ -1,5 +1,6 @@
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import PersonIcon from '@mui/icons-material/Person';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import { AppBar, Container, Typography, Grid, Toolbar, Button, Tooltip } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -21,13 +22,18 @@ function Topbar() {
             <Container>
                 <Toolbar>
                     <Grid container style={{ height: '70px' }}>
-                        <Grid item xs={3} md={3} lg={3} style={{ paddingTop: 10 }}>
-                            {userData.userRol === 'admin' ? <CurrencyBitcoinIcon /> : <PersonIcon />}
+                        <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 10 }}>
+                            {userData.userRol === 'admin' && <CurrencyBitcoinIcon />}
+                            {userData.userRol === 'user' && <PersonIcon />}
+                            {userData.userRol === 'guest' && <InsertEmoticonIcon />}
                             <Typography>Hola, {userData.userName}</Typography>
                         </Grid>
                         <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 20 }}>
                             <Link to='/home'>Inicio</Link>
                         </Grid>
+                        {userData.userRol === 'admin' && <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 20 }}>
+                            <Link to='/usuarios'>Usuarios</Link>
+                        </Grid>}
                         {userData.userRol === 'admin' && <Grid item xs={2} md={2} lg={2} style={{ paddingTop: 20 }}>
                             <Link to='/informes'>Informes</Link>
                         </Grid>}
